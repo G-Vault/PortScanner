@@ -1,6 +1,7 @@
 import socket
 import threading
 from queue import Queue
+from datetime import datetime
 
 print("\nThreaded port scanner, Gareth Porter, Python v3.8\n")
 queue = Queue()
@@ -13,6 +14,8 @@ def go_again():
     if again == 'Y' or again == 'y':
         print("\n")
         validate_hostname()
+    else:
+        quit(0)
 
 
 # Function defined to open port on target
@@ -101,12 +104,21 @@ def main():
 
 
 def result():
+    now = datetime.now()
+    # dd/mm/YY H:M:S
+    dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
     if not open_ports:
         print("There are no open ports on " + hostname + " between the port range " + str(startPort) + " and " + str(
-            endPort) + ".")
+            endPort) + ".\nThe date and time is: ", dt_string)
+        with open('portscanner_results.txt', 'a+') as f:
+            print("\nThere are no open ports on " + hostname + " between the port range " + str(
+                startPort) + " and " + str(endPort) + ".\nPort scan was run at: ", dt_string, file=f)
     else:
         print("\nOpen ports on " + hostname + " between the port range " + str(startPort) + " and " + str(
-            endPort) + " are: ", open_ports)
+            endPort) + " are: ", open_ports, ".\nThe date and time is: ", dt_string)
+        with open('portscanner_results.txt', 'a+') as f:
+            print("\nOpen ports on " + hostname + " between the port range " + str(startPort) + " and " + str(
+                endPort) + " are: ", open_ports, ".\nPort scan was run at: ", dt_string, file=f)
 
     go_again()
 
