@@ -1,2 +1,2 @@
 # PortScanner
- Simple threaded command line port scanner
+ Simple threaded command line port scanner for Windows
